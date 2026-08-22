@@ -1,11 +1,27 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-# This workflow will install Deno then run `deno lint` and `deno test`.
-# For more information see: https://github.com/denoland/setup-deno
-
+- name: PDM update dependencies
+  # You may pin to the exact commit or the version.
+  # uses: pdm-project/update-deps-action@22852fcff9a131d732730e8db92cc9502643a260
+  uses: pdm-project/update-deps-action@v1.12
+  with:
+    # A personal access token
+    token: # optional, default is ${{ github.token }}
+    # The commit message
+    commit-message: # optional, default is chore: Update pdm.lock
+    # The PR title
+    pr-title: # optional, default is chore: Update pdm.lock
+    # The update strategy, can be 'reuse', 'eager' or 'all'
+    update-strategy: # optional, default is reuse
+    # The save strategy, can be 'compatible', 'wildcard', 'exact' or 'minimum'
+    save-strategy: # optional, default is minimum
+    # Ignore the version constraint of packages in pyproject.toml
+    unconstrained: # optional, default is false
+    # Whether install PDM plugins before update
+    install-plugins: # optional, default is false
+    # Whether commit message contains signed-off-by
+    sign-off-commit: # optional, default is false
+    # Sign commits as github-actions[bot]
+    sign-commits: # optional, default is true
+    
 name: Deno
 
 on:
