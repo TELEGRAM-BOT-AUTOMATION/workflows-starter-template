@@ -1,0 +1,58 @@
+- name: PDM update dependencies
+  # You may pin to the exact commit or the version.
+  # uses: pdm-project/update-deps-action@22852fcff9a131d732730e8db92cc9502643a260
+  uses: pdm-project/update-deps-action@v1.12
+  with:
+    # A personal access token
+    token: # optional, default is ${{ github.token }}
+    # The commit message
+    commit-message: # optional, default is chore: Update pdm.lock
+    # The PR title
+    pr-title: # optional, default is chore: Update pdm.lock
+    # The update strategy, can be 'reuse', 'eager' or 'all'
+    update-strategy: # optional, default is reuse
+    # The save strategy, can be 'compatible', 'wildcard', 'exact' or 'minimum'
+    save-strategy: # optional, default is minimum
+    # Ignore the version constraint of packages in pyproject.toml
+    unconstrained: # optional, default is false
+    # Whether install PDM plugins before update
+    install-plugins: # optional, default is false
+    # Whether commit message contains signed-off-by
+    sign-off-commit: # optional, default is false
+    # Sign commits as github-actions[bot]
+    sign-commits: # optional, default is true
+    
+name: Deno
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v4
+
+      - name: Setup Deno
+        # uses: denoland/setup-deno@v1
+        uses: denoland/setup-deno@61fe2df320078202e33d7d5ad347e7dcfa0e8f31  # v1.1.2
+        with:
+          deno-version: v1.x
+
+      # Uncomment this step to verify the use of 'deno fmt' on each commit.
+      # - name: Verify formatting
+      #   run: deno fmt --check
+
+      - name: Run linter
+        run: deno lint
+
+      - name: Run tests
+        run: deno test -A
